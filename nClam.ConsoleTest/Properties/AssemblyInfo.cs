@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Tntp.ClamClient.ClamConsoleTest")]
+[assembly: AssemblyTitle("nClam.ConsoleTest")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("The New Teacher Project")]
-[assembly: AssemblyProduct("Tntp.ClamClient.ClamConsoleTest")]
-[assembly: AssemblyCopyright("Copyright © The New Teacher Project 2011")]
+[assembly: AssemblyCompany("nClam Team")]
+[assembly: AssemblyProduct("nClam.ConsoleTest")]
+[assembly: AssemblyCopyright("Copyright © nClam Team 2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
