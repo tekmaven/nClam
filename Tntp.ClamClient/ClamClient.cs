@@ -5,16 +5,16 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 
-namespace Tntp.ClamClient
+namespace nClam
 {
-    public class ClamAv
+    public class ClamClient
     {
         public int MaxChunkSize {get; set;} 
 
         public string Server { get; set; }
         public int Port { get; set; }
 
-        public ClamAv(string server, int port)
+        public ClamClient(string server, int port)
         {
             MaxChunkSize = 2048;
             Server = server;
