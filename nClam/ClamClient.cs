@@ -13,7 +13,12 @@ namespace nClam
         /// <summary>
         /// Maximum size (in bytes) which streams will be broken up to when sending to the ClamAV server.  Used in the SendAndScanFile methods.  128kb is the default size.
         /// </summary>
-        public int MaxChunkSize {get; set;} 
+        public int MaxChunkSize {get; set;}
+
+        /// <summary>
+        /// Maximum size (in bytes) that can be streamed to the ClamAV server before it will terminate the connection. Used in the SendAndScanFile methods. 25mb is the default size.
+        /// </summary>
+        public long MaxStreamSize { get; set; }
 
         /// <summary>
         /// Address to the ClamAV server
@@ -33,6 +38,7 @@ namespace nClam
         public ClamClient(string server, int port)
         {
             MaxChunkSize = 131072; //128k
+            MaxStreamSize = 26214400; //25mb
             Server = server;
             Port = port;
         }
@@ -95,27 +101,27 @@ namespace nClam
         /// <summary>
         /// Helper method to send a byte array over the wire to the ClamAV server, split up in chunks.
         /// </summary>
-        /// <param name="fileBytes">The bytes of the stream to send to the ClamAV server.</param>
-        /// <param name="stream">The communication channel to the ClamAV server.</param>
-        private void SendStreamFileChunks(byte[] fileBytes, Stream stream)
+        /// <param name="sourceStream">The stream to send to the ClamAV server.</param>
+        /// <param name="clamStream">The communication channel to the ClamAV server.</param>
+        private void SendStreamFileChunks(Stream sourceStream, Stream clamStream)
         {
-            var cursor = 0;
             var size = MaxChunkSize;
-            while (cursor < fileBytes.Length)
+            var bytes = new byte[size];
+
+            while ((size = sourceStream.Read(bytes, 0, size)) > 0)
             {
-                if (cursor + size >= fileBytes.Length)
+                if (sourceStream.Position > MaxStreamSize)
                 {
-                    size = fileBytes.Length - cursor;
+                    throw new MaxStreamSizeExceededException(MaxStreamSize);
                 }
 
                 var sizeBytes = BitConverter.GetBytes(System.Net.IPAddress.HostToNetworkOrder(size));  //convert size to NetworkOrder!
-                stream.Write(sizeBytes, 0, sizeBytes.Length);
-                stream.Write(fileBytes, cursor, size);
-                cursor += size;
+                clamStream.Write(sizeBytes, 0, sizeBytes.Length);
+                clamStream.Write(bytes, 0, size);
             }
             
             var newMessage = BitConverter.GetBytes(0);
-            stream.Write(newMessage, 0, newMessage.Length);
+            clamStream.Write(newMessage, 0, newMessage.Length);
         }
 
         /// <summary>
@@ -160,7 +166,20 @@ namespace nClam
         /// <returns></returns>
         public ClamScanResult SendAndScanFile(byte[] fileData)
         {
-            return new ClamScanResult(ExecuteClamCommand("INSTREAM", stream => SendStreamFileChunks(fileData, stream)));
+            using (var sourceStream = new MemoryStream(fileData))
+            {
+                return SendAndScanFile(sourceStream);
+            }
+        }
+
+        /// <summary>
+        /// Sends the data to the ClamAV server as a stream.
+        /// </summary>
+        /// <param name="sourceStream">Stream containing the data to scan.</param>
+        /// <returns></returns>
+        public ClamScanResult SendAndScanFile(Stream sourceStream)
+        {
+            return new ClamScanResult(ExecuteClamCommand("INSTREAM", stream => SendStreamFileChunks(sourceStream, stream)));
         }
 
         /// <summary>
@@ -169,7 +188,10 @@ namespace nClam
         /// <param name="filePath">Path to the file/directory.</param>
         public ClamScanResult SendAndScanFile(string filePath)
         {
-            return SendAndScanFile(File.ReadAllBytes(filePath));
+            using (var stream = File.OpenRead(filePath))
+            {
+                return SendAndScanFile(stream);
+            }
         }
     }
 }
