@@ -45,6 +45,7 @@
     <Compile Include="ClamScanInfectedFile.cs" />
     <Compile Include="ClamScanResult.cs" />
     <Compile Include="ClamScanResults.cs" />
+    <Compile Include="MaxStreamSizeExceededException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnknownClamResponseException.cs" />
   </ItemGroup>

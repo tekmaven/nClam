@@ -16,17 +16,26 @@ namespace nClam.ConsoleTest
                 return;
             }
 
-            var fileName = args[0];
+            var fileInfo = new FileInfo(args[0]);
+
             var client = new ClamClient("localhost", 3310);
+
             Console.WriteLine("GetVersion(): {0}", client.GetVersion());
             Console.WriteLine("GetPing(): {0}", client.Ping());
-            Console.WriteLine("ScanFileOnServer(): {0}", client.ScanFileOnServer(fileName));
-            Console.WriteLine("ScanFileOnServerMultithreaded(): {0}", client.ScanFileOnServerMultithreaded(fileName));
 
-            if (!IsFolder(fileName))
+            if (!fileInfo.Exists)
             {
-                Console.WriteLine("SendAndScanFile(string): {0}", client.SendAndScanFile(fileName));
-                Console.WriteLine("SendAndScanFile(byte[]): {0}", client.SendAndScanFile(File.ReadAllBytes(fileName)));
+                Console.WriteLine("{0} could not be found.  Exiting.", fileInfo.FullName);
+                return;
+            }
+            
+            Console.WriteLine("ScanFileOnServer(): {0}", client.ScanFileOnServer(fileInfo.FullName));
+            Console.WriteLine("ScanFileOnServerMultithreaded(): {0}", client.ScanFileOnServerMultithreaded(fileInfo.FullName));
+
+            if (!IsFolder(fileInfo.FullName))
+            {
+                Console.WriteLine("SendAndScanFile(string): {0}", client.SendAndScanFile(fileInfo.FullName));
+                Console.WriteLine("SendAndScanFile(byte[]): {0}", client.SendAndScanFile(File.ReadAllBytes(fileInfo.FullName)));
             }
             else
             {
