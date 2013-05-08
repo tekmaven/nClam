@@ -39,3 +39,9 @@ class Program
     }
 }
 ```
+
+#ClamAV Setup for Windows
+For directions on setting up ClamAV as a Windows Service, check out [this blog post](http://architectryan.com/2011/05/19/nclam-a-dotnet-library-to-virus-scan/).
+
+#Test Application
+For more information about how to use nClam, you can look at the nClam.ConsoleTest project's [Program.cs](https://github.com/tekmaven/nClam/blob/master/nClam.ConsoleTest/Program.cs).  The nClam.ConsoleTest console application takes a file path as an argument, and then uses nClam to scan the file using nClam's various Scan methods.
