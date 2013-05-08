@@ -25,8 +25,15 @@ namespace nClam.ConsoleTest
 
             if (!IsFolder(fileName))
             {
-                Console.WriteLine("SendAndScanFile(string): {0}", client.SendAndScanFile(fileName));
-                Console.WriteLine("SendAndScanFile(byte[]): {0}", client.SendAndScanFile(File.ReadAllBytes(fileName)));
+                try
+                {
+                    Console.WriteLine("SendAndScanFile(string): {0}", client.SendAndScanFile(fileName));
+                    Console.WriteLine("SendAndScanFile(byte[]): {0}", client.SendAndScanFile(File.ReadAllBytes(fileName)));
+                }
+                catch (MaxStreamSizeExceededException msee)
+                {
+                    Console.WriteLine(msee.Message);
+                }
             }
             else
             {

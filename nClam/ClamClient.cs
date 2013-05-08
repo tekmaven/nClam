@@ -112,7 +112,7 @@ namespace nClam
             {
                 if (sourceStream.Position > MaxStreamSize)
                 {
-                    break; //Break out of the loop when we hit the max stream size, otherwise Clamd will close the connection.
+                    throw new MaxStreamSizeExceededException(MaxStreamSize);
                 }
 
                 var sizeBytes = BitConverter.GetBytes(System.Net.IPAddress.HostToNetworkOrder(size));  //convert size to NetworkOrder!
@@ -166,8 +166,10 @@ namespace nClam
         /// <returns></returns>
         public ClamScanResult SendAndScanFile(byte[] fileData)
         {
-            var sourceStream = new MemoryStream(fileData);
-            return new ClamScanResult(ExecuteClamCommand("INSTREAM", stream => SendStreamFileChunks(sourceStream, stream)));
+            using (var sourceStream = new MemoryStream(fileData))
+            {
+                return SendAndScanFile(sourceStream);
+            }
         }
 
         /// <summary>
