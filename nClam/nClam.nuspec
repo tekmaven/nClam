@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>nClam</id>
+        <version>2.0.0.0</version>
+        <authors>Ryan Hoffman</authors>
+        <owners>Ryan Hoffman</owners>
+        <licenseUrl>https://github.com/tekmaven/nClam/raw/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/tekmaven/nClam</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>A library to talk to a ClamAV server and perform virus scanning.</description>
+        <tags>clamav virus clam clamd nclam</tags>
+    </metadata>
+</package>
