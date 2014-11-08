@@ -46,19 +46,32 @@ namespace nClam
                 foreach(var file in files)
                 {
                     var trimFile = file.Trim();
-                    var splitFile = trimFile.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
-                    if(splitFile.Length == 2) //then this is the correct size
-                    {
-                        infectedFiles.Add(new ClamScanInfectedFile() {FileName = splitFile[0].Trim().TrimEnd(':'), VirusName = splitFile[1].Trim()});
-                    }
-                    else
-                    {
-                        throw new UnknownClamResponseException(file);
-                    }
+                    var splitFile = trimFile.Split();
+                    
+                    infectedFiles.Add(new ClamScanInfectedFile() { FileName = before(trimFile), VirusName = after(trimFile) });
                 }
 
                 InfectedFiles = new ReadOnlyCollection<ClamScanInfectedFile>(infectedFiles);
             }
+        }
+        
+        public static string before(string s)
+        {
+            int l = s.LastIndexOf(":");
+            if (l > 0)
+            {
+                return s.Substring(0, l);
+            }
+            return "";
+        }
+        public static string after(string s)
+        {
+            int l = s.LastIndexOf(" ");
+            if (l > 0)
+            {
+                return s.Substring(l);
+            }
+            return "";
         }
 
         public override string ToString()
