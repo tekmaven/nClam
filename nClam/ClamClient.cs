@@ -64,7 +64,7 @@ namespace nClam
                 using (var stream = clam.GetStream())
                 {
                     var commandText = String.Format("z{0}\0", command);
-                    var commandBytes = Encoding.ASCII.GetBytes(commandText);
+                    var commandBytes = Encoding.UTF8.GetBytes(commandText);
                     stream.Write(commandBytes, 0, commandBytes.Length);
 
                     if (additionalCommand != null)
