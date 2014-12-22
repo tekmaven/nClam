@@ -4,8 +4,12 @@ nClam is a library which helps you scan files or directories using a ClamAV serv
 ##Dependencies
 ClamAV Server, also known as clamd.  It is a free, open-source virus scanner.  Win32 ports can be obtained here: http://oss.netfarm.it/clamav/
 
+## NuGet Package
+
+    Install-Package nClam
+
 ##Directions
-1. Add the library as a reference in your application.
+1. Add the nuget package to your project.
 2. Create a nClam.ClamClient object, passing it the hostname and port of the ClamAV server.
 3. Scan!
 
