@@ -84,14 +84,6 @@ namespace nClam
                     }
                 }
             }
-            catch (Exception ex)
-            {
-                // catch all exceptions and return empty value
-#if DEBUG
-                System.Diagnostics.Debug.WriteLine(ex.ToString());
-#endif
-                result = null;
-            }
             finally
             {
                 if (clam.Connected)
