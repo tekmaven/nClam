@@ -1,4 +1,4 @@
-#nClam Description
+# nClam  [![Build status](https://ci.appveyor.com/api/projects/status/bka4oktv8aw3r985?svg=true)](https://ci.appveyor.com/project/tekmaven/nclam) [![NuGet version](https://badge.fury.io/nu/nClam.svg)](http://badge.fury.io/nu/nClam) #
 nClam is a library which helps you scan files or directories using a ClamAV server.  It contains a simple API which encapsulates the communication with the ClamAV server as well as the parsing of its results.  The library is licensed under the Apache License 2.0.
 
 ##Dependencies
