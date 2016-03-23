@@ -1,58 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
+using System.Threading.Tasks;
+using nClam;
 
-namespace nClam.ConsoleTest
+class Program
 {
-    class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
+        Task.Run(async () =>
         {
-            if(args == null || args.Length != 1)
+            var clam = new ClamClient("localhost", 3310);
+            var scanResult = await clam.ScanFileOnServerAsync("C:\\test.txt");  //any file you would like!
+
+            switch (scanResult.Result)
             {
-                Console.WriteLine("Invalid arguments.  Usage: nClam.ConsoleTest [FileName]");
-                return;
+                case ClamScanResults.Clean:
+                    Console.WriteLine("The file is clean!");
+                    break;
+                case ClamScanResults.VirusDetected:
+                    Console.WriteLine("Virus Found!");
+                    Console.WriteLine("Virus name: {0}", scanResult.InfectedFiles.First().VirusName);
+                    break;
+                case ClamScanResults.Error:
+                    Console.WriteLine("Woah an error occured! Error: {0}", scanResult.RawResult);
+                    break;
             }
-
-            var fileInfo = new FileInfo(args[0]);
-
-            var client = new ClamClient("localhost", 3310);
-
-            Console.WriteLine("GetVersion(): {0}", client.GetVersion());
-            Console.WriteLine("GetPing(): {0}", client.Ping());
-
-            if (!fileInfo.Exists)
-            {
-                Console.WriteLine("{0} could not be found.  Exiting.", fileInfo.FullName);
-                return;
-            }
-            
-            Console.WriteLine("ScanFileOnServer(): {0}", client.ScanFileOnServer(fileInfo.FullName));
-            Console.WriteLine("ScanFileOnServerMultithreaded(): {0}", client.ScanFileOnServerMultithreaded(fileInfo.FullName));
-
-            if (!IsFolder(fileInfo.FullName))
-            {
-                Console.WriteLine("SendAndScanFile(string): {0}", client.SendAndScanFile(fileInfo.FullName));
-                Console.WriteLine("SendAndScanFile(byte[]): {0}", client.SendAndScanFile(File.ReadAllBytes(fileInfo.FullName)));
-            }
-            else
-            {
-                Console.WriteLine("SendAndScanFile(): Not run because argument is a folder, not a file.");
-            }
-            Console.WriteLine("Finished, Press <enter> to quit.");
-            Console.ReadLine();
-        }
-
-        /// <summary>
-        /// Returns true if the given file path is a folder.
-        /// </summary>
-        /// <param name="path">File path</param>
-        /// <returns>True if a folder</returns>
-        public static bool IsFolder(string path)
-        {
-            return ((File.GetAttributes(path) & FileAttributes.Directory) == FileAttributes.Directory);
-        }
+        }).Wait();
     }
 }

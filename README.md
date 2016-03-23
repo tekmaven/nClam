@@ -17,29 +17,32 @@ ClamAV Server, also known as clamd.  It is a free, open-source virus scanner.  W
 ```csharp
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using nClam;
 
 class Program
 {
     static void Main(string[] args)
     {
-
-        var clam = new ClamClient("localhost", 3310);
-        var scanResult = clam.ScanFileOnServer("C:\\test.txt");  //any file you would like!
-
-        switch(scanResult.Result)
+        Task.Run(async () =>
         {
-            case ClamScanResults.Clean:
-                Console.WriteLine("The file is clean!");
-                break;
-            case ClamScanResults.VirusDetected:
-                Console.WriteLine("Virus Found!");
-                Console.WriteLine("Virus name: {0}", scanResult.InfectedFiles.First().VirusName);
-                break;
-            case ClamScanResults.Error:
-                Console.WriteLine("Woah an error occured! Error: {0}", scanResult.RawResult);
-                break;
-        }
+            var clam = new ClamClient("localhost", 3310);
+            var scanResult = await clam.ScanFileOnServerAsync("C:\\test.txt");  //any file you would like!
+
+            switch (scanResult.Result)
+            {
+                case ClamScanResults.Clean:
+                    Console.WriteLine("The file is clean!");
+                    break;
+                case ClamScanResults.VirusDetected:
+                    Console.WriteLine("Virus Found!");
+                    Console.WriteLine("Virus name: {0}", scanResult.InfectedFiles.First().VirusName);
+                    break;
+                case ClamScanResults.Error:
+                    Console.WriteLine("Woah an error occured! Error: {0}", scanResult.RawResult);
+                    break;
+            }
+        }).Wait();
     }
 }
 ```
