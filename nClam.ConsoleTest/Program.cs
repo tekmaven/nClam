@@ -20,9 +20,6 @@ namespace nClam.ConsoleTest
             var fileInfo = new FileInfo(args[0]);
             const string ClamServer = "localhost";
 
-            SendSyncExample(fileInfo, ClamServer);
-            Console.WriteLine();
-
             Task.WaitAll(SendAsyncExample(fileInfo, ClamServer).ToArray());
             Console.WriteLine();
 
@@ -38,34 +35,6 @@ namespace nClam.ConsoleTest
         public static bool IsFolder(string path)
         {
             return ((File.GetAttributes(path) & FileAttributes.Directory) == FileAttributes.Directory);
-        }
-
-        static void SendSyncExample(FileInfo fileInfo, string clamServer)
-        {
-            Console.WriteLine("############## Sending Examples Synchronously ##############");
-            var client = new ClamClient(clamServer);
-
-            Console.WriteLine("GetVersion(): {0}", client.GetVersion());
-            Console.WriteLine("GetPing(): {0}", client.Ping());
-
-            if (!fileInfo.Exists)
-            {
-                Console.WriteLine("{0} could not be found.  Exiting.", fileInfo.FullName);
-                return;
-            }
-
-            Console.WriteLine("ScanFileOnServer(): {0}", client.ScanFileOnServer(fileInfo.FullName));
-            Console.WriteLine("ScanFileOnServerMultithreaded(): {0}", client.ScanFileOnServerMultithreaded(fileInfo.FullName));
-
-            if (!IsFolder(fileInfo.FullName))
-            {
-                Console.WriteLine("SendAndScanFile(string): {0}", client.SendAndScanFile(fileInfo.FullName));
-                Console.WriteLine("SendAndScanFile(byte[]): {0}", client.SendAndScanFile(File.ReadAllBytes(fileInfo.FullName)));
-            }
-            else
-            {
-                Console.WriteLine("SendAndScanFile(): Not run because argument is a folder, not a file.");
-            }
         }
 
         static IEnumerable<Task> SendAsyncExample(FileInfo fileInfo, string clamServer)
