@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nClam", "nClam\nClam.csproj", "{4F90429F-3CB1-4972-AEC1-3A06FA8841D1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nClam.ConsoleTest", "nClam.ConsoleTest\nClam.ConsoleTest.csproj", "{BF7B4064-77F0-4521-BB35-EA8A69C058D1}"
