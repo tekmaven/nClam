@@ -88,7 +88,10 @@ namespace nClam
             {
                 if (clam.Connected)
                 {
+#if NETSTANDARD1_3 || NETSTANDARD1_4 || NETSTANDARD1_5 || NETSTANDARD1_6
+#else
                     clam.Close();
+#endif
                 }
             }
 #if DEBUG
@@ -97,7 +100,7 @@ namespace nClam
 #endif
             return result;
         }
-        
+
         /// <summary>
         /// Helper method to send a byte array over the wire to the ClamAV server, split up in chunks.
         /// </summary>
