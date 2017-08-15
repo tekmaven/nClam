@@ -1,12 +1,12 @@
-﻿using System;
-using System.IO;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace nClam
+﻿namespace nClam
 {
+    using System;
+    using System.IO;
+    using System.Net.Sockets;
+    using System.Text;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     public class ClamClient : IClamClient
     {
         /// <summary>
@@ -97,7 +97,7 @@ namespace nClam
 #endif
             return result;
         }
-        
+
         /// <summary>
         /// Helper method to send a byte array over the wire to the ClamAV server, split up in chunks.
         /// </summary>
