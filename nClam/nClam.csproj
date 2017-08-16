@@ -24,6 +24,5 @@
         <Reference Include="System.IO" />
         <Reference Include="System.Threading" />
         <Reference Include="System.Threading.Tasks" />
-        <Reference Include="System.Collections.ObjectModel" />
     </ItemGroup>
 </Project>
