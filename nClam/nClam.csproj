@@ -1,13 +1,28 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.3;netstandard1.4;netstandard1.5;netstandard1.6;netstandard2.0;net45;net46;net461;net462</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
     <Copyright>Copyright © nClam Team 2013</Copyright>
-    <Description />
     <Company>nClam Team</Company>
-    <Authors />
     <Version>4.0.0</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
+
+    <PropertyGroup>
+        <PackageId>nClam</PackageId>
+        <PackageVersion>4.0.0</PackageVersion>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+        <PackageProjectUrl>https://github.com/tekmaven/nClam</PackageProjectUrl>
+        <Description>A library to talk to a ClamAV server and perform virus scanning.</Description>
+        <PackageTags>clamav virus clam clamd nclam</PackageTags>
+        <Authors>rhoffman</Authors>
+    </PropertyGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
+    <ItemGroup Condition="'$(TargetFramework)'=='net45'">
+        <Reference Include="System" />
+        <Reference Include="System.IO" />
+        <Reference Include="System.Threading" />
+        <Reference Include="System.Threading.Tasks" />
+    </ItemGroup>
 </Project>
