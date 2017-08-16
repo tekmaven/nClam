@@ -1,12 +1,12 @@
-﻿using System;
-using System.IO;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace nClam
+﻿namespace nClam
 {
+    using System;
+    using System.IO;
+    using System.Net.Sockets;
+    using System.Text;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     public class ClamClient : IClamClient
     {
         /// <summary>
@@ -88,10 +88,7 @@ namespace nClam
             {
                 if (clam.Connected)
                 {
-#if NETSTANDARD1_3 || NETSTANDARD1_4 || NETSTANDARD1_5 || NETSTANDARD1_6
-#else
                     clam.Close();
-#endif
                 }
             }
 #if DEBUG
