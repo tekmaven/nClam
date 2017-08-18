@@ -3,5 +3,9 @@ image: Visual Studio 2017
 configuration: Release
 build_script:
 - ps: dotnet build -c Release
+test_script:
+- ps: >-
+    cd nClam.Tests
+    dotnet test
 artifacts:
 - path: nClam\bin\Release\*.nupkg
