@@ -7,7 +7,22 @@ class Program
 {
     static async Task Main(string[] args)
     {
-        var clam = new ClamClient("localhost", 3310);
+        Console.WriteLine("nClam Test Application");
+        Console.WriteLine();
+
+        Console.Write("\t• Testing connectivity: ");
+
+        var clam = new ClamClient("localhost", 3310);        
+        var pingResult = await clam.PingAsync();
+
+        if(!pingResult) {
+            Console.WriteLine("test failed. Exiting.");
+            return;
+        }
+
+        Console.WriteLine("connected.");
+        
+        Console.Write("\t• Scanning file: ");
         var scanResult = await clam.ScanFileOnServerAsync("C:\\test.txt");  //any file you would like!
 
         switch (scanResult.Result)

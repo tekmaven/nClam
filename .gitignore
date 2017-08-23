@@ -31,3 +31,4 @@ Nuget Package/*
 *.nupkg
 packages/*
 /.vs/*
+.vscode
