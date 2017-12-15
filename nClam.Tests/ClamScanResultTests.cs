@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Xunit;
 
 namespace nClam.Tests
@@ -82,5 +83,14 @@ namespace nClam.Tests
                 ClamScanResult.after("test")
                 );
         }
+
+		[Fact(Skip = "Requires ClamAV running on localhost:3310 ")]
+		public void TestSendAsyncTest()
+		{
+			string Eicartestcase = @"X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*";
+			var client = new ClamClient("localhost");
+			var result = client.SendAndScanFileAsync(new MemoryStream(System.Text.Encoding.Default.GetBytes(Eicartestcase)));
+			Assert.Equal(ClamScanResults.VirusDetected,result.Result.Result);
+		}
     }
 }
