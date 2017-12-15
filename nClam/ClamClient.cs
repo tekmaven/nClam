@@ -178,7 +178,7 @@
         /// <param name="cancellationToken">cancellation token used for request</param>
         public async Task<ClamScanResult> ScanFileOnServerAsync(string filePath, CancellationToken cancellationToken)
         {
-            return new ClamScanResult(await ExecuteClamCommandAsync(String.Format("SCAN {0}", filePath), cancellationToken));
+            return new ClamScanResult(await ExecuteClamCommandAsync(String.Format("SCAN {0}", filePath), cancellationToken).ConfigureAwait(false));
         }
 
         /// <summary>
@@ -197,7 +197,7 @@
         /// <param name="cancellationToken">cancellation token used for request</param>
         public async Task<ClamScanResult> ScanFileOnServerMultithreadedAsync(string filePath, CancellationToken cancellationToken)
         {
-            return new ClamScanResult(await ExecuteClamCommandAsync(String.Format("MULTISCAN {0}", filePath), cancellationToken));
+            return new ClamScanResult(await ExecuteClamCommandAsync(String.Format("MULTISCAN {0}", filePath), cancellationToken).ConfigureAwait(false));
         }
 
         /// <summary>
