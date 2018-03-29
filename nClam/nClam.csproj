@@ -9,7 +9,7 @@
 
     <PropertyGroup>
         <PackageId>nClam</PackageId>
-        <PackageVersion>4.0.0</PackageVersion>
+        <PackageVersion>4.0.1</PackageVersion>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageProjectUrl>https://github.com/tekmaven/nClam</PackageProjectUrl>
         <Description>A library to talk to a ClamAV server and perform virus scanning.</Description>
