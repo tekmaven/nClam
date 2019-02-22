@@ -111,7 +111,7 @@
 
             while ((size = await sourceStream.ReadAsync(bytes, 0, size, cancellationToken).ConfigureAwait(false)) > 0)
             {
-                if (sourceStream.Position > MaxStreamSize)
+                if (sourceStream.CanSeek && sourceStream.Position > MaxStreamSize)
                 {
                     throw new MaxStreamSizeExceededException(MaxStreamSize);
                 }
