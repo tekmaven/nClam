@@ -131,7 +131,7 @@
 
             while ((size = await sourceStream.ReadAsync(bytes, 0, size, cancellationToken).ConfigureAwait(false)) > 0)
             {
-                if (sourceStream.Position > MaxStreamSize)
+                if (sourceStream.CanSeek && sourceStream.Position > MaxStreamSize)
                 {
                     throw new MaxStreamSizeExceededException(MaxStreamSize);
                 }
@@ -321,5 +321,14 @@
                 return await SendAndScanFileAsync(stream, cancellationToken).ConfigureAwait(false);
             }
         }
-    }
+
+		/// <summary>
+		/// Shuts down the ClamAV server in an orderly fashion.
+		/// </summary>
+		public async Task Shutdown(CancellationToken cancellationToken)
+		{
+		    await ExecuteClamCommandAsync("SHUTDOWN", cancellationToken).ConfigureAwait(false);
+		}
+
+	}
 }
