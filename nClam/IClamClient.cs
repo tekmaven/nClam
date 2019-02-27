@@ -116,5 +116,10 @@ namespace nClam
         /// <param name="filePath">Path to the file/directory.</param>
         /// <param name="cancellationToken">cancellation token used for request</param>
         Task<ClamScanResult> SendAndScanFileAsync(string filePath, CancellationToken cancellationToken);
-    }
+
+		/// <summary>
+		/// Shuts down the ClamAV server in an orderly fashion.
+		/// </summary>
+		Task Shutdown( CancellationToken cancellationToken );
+	}
 }
