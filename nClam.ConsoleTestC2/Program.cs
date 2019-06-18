@@ -10,7 +10,7 @@ class Program
         Console.WriteLine("nClam Test Application");
         Console.WriteLine();
 
-        Console.Write("\t• Testing connectivity: ");
+        Console.Write("\t* Testing connectivity: ");
 
         var clam = new ClamClient("localhost", 3310);        
         var pingResult = await clam.PingAsync();
@@ -22,7 +22,7 @@ class Program
 
         Console.WriteLine("connected.");
         
-        Console.Write("\t• Scanning file: ");
+        Console.Write("\t* Scanning file: ");
         var scanResult = await clam.ScanFileOnServerAsync("C:\\test.txt");  //any file you would like!
 
         switch (scanResult.Result)

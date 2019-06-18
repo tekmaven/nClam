@@ -158,8 +158,15 @@
         /// <returns>If the server responds with PONG, returns true.  Otherwise returns false.</returns>
         public async Task<bool> PingAsync(CancellationToken cancellationToken)
         {
-            var result = await ExecuteClamCommandAsync("PING", cancellationToken).ConfigureAwait(false);
-            return result.ToLowerInvariant() == "pong";
+            try
+            {
+                var result = await ExecuteClamCommandAsync("PING", cancellationToken).ConfigureAwait(false);
+                return result.ToLowerInvariant() == "pong";
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         /// <summary>
