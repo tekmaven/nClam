@@ -145,8 +145,9 @@
 
         /// <summary>
         /// Executes a PING command on the ClamAV server.
+        /// <para>Tip:when you call this method , please wrap your call in a try/catch ,because if return is not true,will throw a exception,or you can use <see cref="TryPingAsync"/></para>
         /// </summary>
-        /// <returns>If the server responds with PONG, returns true.  Otherwise returns false.</returns>
+        /// <returns>If the server responds with PONG, returns true.  Otherwise throw a exception.</returns>
         public Task<bool> PingAsync()
         {
             return PingAsync(CancellationToken.None);
@@ -154,9 +155,29 @@
 
         /// <summary>
         /// Executes a PING command on the ClamAV server.
+        /// <para>Tip:when you call this method , please wrap your call in a try/catch ,because if return is not true,will throw a exception,or you can use <see cref="TryPingAsync"/></para>
+        /// </summary>
+        /// <returns>If the server responds with PONG, returns true.  Otherwise throw a exception.</returns>
+        public async Task<bool> PingAsync(CancellationToken cancellationToken)
+        {
+            var result = await ExecuteClamCommandAsync("PING", cancellationToken).ConfigureAwait(false);
+            return result.ToLowerInvariant() == "pong";
+        }
+
+        /// <summary>
+        /// Executes a PING command on the ClamAV server.
         /// </summary>
         /// <returns>If the server responds with PONG, returns true.  Otherwise returns false.</returns>
-        public async Task<bool> PingAsync(CancellationToken cancellationToken)
+        public Task<bool> TryPingAsync()
+        {
+            return TryPingAsync(CancellationToken.None);
+        }
+
+        /// <summary>
+        /// Executes a PING command on the ClamAV server.
+        /// </summary>
+        /// <returns>If the server responds with PONG, returns true.  Otherwise returns false.</returns>
+        public async Task<bool> TryPingAsync(CancellationToken cancellationToken)
         {
             try
             {
@@ -168,7 +189,6 @@
                 return false;
             }
         }
-
         /// <summary>
         /// Scans a file/directory on the ClamAV Server.
         /// </summary>

@@ -49,6 +49,18 @@ namespace nClam
         Task<bool> PingAsync(CancellationToken cancellationToken);
 
         /// <summary>
+        /// Executes a PING command on the ClamAV server.
+        /// </summary>
+        /// <returns>If the server responds with PONG, returns true.  Otherwise returns false.</returns>
+        Task<bool> TryPingAsync();
+
+        /// <summary>
+        /// Executes a PING command on the ClamAV server.
+        /// </summary>
+        /// <returns>If the server responds with PONG, returns true.  Otherwise returns false.</returns>
+        Task<bool> TryPingAsync(CancellationToken cancellationToken);
+
+        /// <summary>
         /// Scans a file/directory on the ClamAV Server.
         /// </summary>
         /// <param name="filePath">Path to the file/directory on the ClamAV server.</param>

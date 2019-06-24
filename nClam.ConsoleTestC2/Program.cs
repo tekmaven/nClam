@@ -13,7 +13,7 @@ class Program
         Console.Write("\t* Testing connectivity: ");
 
         var clam = new ClamClient("localhost", 3310);        
-        var pingResult = await clam.PingAsync();
+        var pingResult = await clam.TryPingAsync();
 
         if(!pingResult) {
             Console.WriteLine("test failed. Exiting.");
