@@ -49,7 +49,7 @@
         /// <param name="cancellationToken">cancellation token used in requests</param>
         /// <param name="additionalCommand">Action to define additional server communications.  Executed after the command is sent and before the response is read.</param>
         /// <returns>The full response from the ClamAV server.</returns>
-        private async Task<string> ExecuteClamCommandAsync(string command, CancellationToken cancellationToken, Func<NetworkStream, CancellationToken, Task> additionalCommand = null)
+        private async Task<string> ExecuteClamCommandAsync(string command, CancellationToken cancellationToken, Func<Stream, CancellationToken, Task> additionalCommand = null)
         {
 #if DEBUG
             var stopWatch = System.Diagnostics.Stopwatch.StartNew();
@@ -59,9 +59,7 @@
             var clam = new TcpClient();
             try
             {
-                await clam.ConnectAsync(Server, Port).ConfigureAwait(false);
-
-                using (var stream = clam.GetStream())
+                using (var stream = await CreateConnection(clam))
                 {
                     var commandText = String.Format("z{0}\0", command);
                     var commandBytes = Encoding.UTF8.GetBytes(commandText);
@@ -123,6 +121,13 @@
 
             var newMessage = BitConverter.GetBytes(0);
             await clamStream.WriteAsync(newMessage, 0, newMessage.Length, cancellationToken).ConfigureAwait(false);
+        }
+
+        protected async virtual Task<Stream> CreateConnection(TcpClient clam)
+        {
+            await clam.ConnectAsync(Server, Port).ConfigureAwait(false);
+
+            return clam.GetStream();
         }
 
         /// <summary>
