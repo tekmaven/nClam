@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using nClam;
 
@@ -12,7 +13,8 @@ class Program
 
         Console.Write("\t• Testing connectivity: ");
 
-        var clam = new ClamClient("localhost", 3310);        
+        var clam = new ClamClient("localhost", 3310);
+        // or var clam = new ClamClient(IPAddress.Parse("127.0.0.1"), 3310);   
         var pingResult = await clam.PingAsync();
 
         if(!pingResult) {
