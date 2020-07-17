@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -20,6 +21,11 @@ namespace nClam
         /// Address to the ClamAV server
         /// </summary>
         string Server { get; set; }
+
+        /// <summary>
+        /// IP Address to the ClamAV server
+        /// </summary>
+        IPAddress ServerIP { get; set; }
 
         /// <summary>
         /// Port which the ClamAV server is listening on

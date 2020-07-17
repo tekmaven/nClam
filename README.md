@@ -10,13 +10,14 @@ ClamAV Server, also known as clamd.  It is a free, open-source virus scanner.  W
 
 ## Directions
 1. Add the nuget package to your project.
-2. Create a nClam.ClamClient object, passing it the hostname and port of the ClamAV server.
+2. Create a nClam.ClamClient object, passing it the hostname (or IP address) and port of the ClamAV server.
 3. Scan!
 
 # Code Example
 ```csharp
 using System;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using nClam;
 
@@ -25,6 +26,7 @@ class Program
     static async Task Main(string[] args)
     {
         var clam = new ClamClient("localhost", 3310);
+		// or var clam = new ClamClient(IPAddress.Parse("127.0.0.1"), 3310);
         var scanResult = await clam.ScanFileOnServerAsync("C:\\test.txt");  //any file you would like!
 
         switch (scanResult.Result)
