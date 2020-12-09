@@ -49,7 +49,7 @@ class Program
 For directions on setting up ClamAV as a Windows Service, check out [this blog post](http://architectryan.com/2011/05/19/nclam-a-dotnet-library-to-virus-scan/).
 
 # Test Application
-For more information about how to use nClam, you can look at the nClam.ConsoleTest project's [Program.cs](https://github.com/tekmaven/nClam/blob/master/nClam.ConsoleTestC2/Program.cs).
+For more information about how to use nClam, you can look at the nClam.ConsoleTest project's [Program.cs](https://github.com/tekmaven/nClam/blob/master/nClam.ConsoleTest/Program.cs).
 
 # Contributing
 I accept PRs!  We have had several contributors help maintain this library by fixing bugs, introducing async support, and moving to .NET Core.  Thank you to all the contributors!
