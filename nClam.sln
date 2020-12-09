@@ -5,9 +5,7 @@ VisualStudioVersion = 15.0.26730.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "nClam", "nClam\nClam.csproj", "{4F90429F-3CB1-4972-AEC1-3A06FA8841D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nClam.ConsoleTest45", "nClam.ConsoleTest45\nClam.ConsoleTest45.csproj", "{BF7B4064-77F0-4521-BB35-EA8A69C058D1}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "nClam.ConsoleTestC2", "nClam.ConsoleTestC2\nClam.ConsoleTestC2.csproj", "{82DFC22E-F7F9-4EB0-BFE2-62E19CA4D78A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "nClam.ConsoleTest", "nClam.ConsoleTest\nClam.ConsoleTest.csproj", "{82DFC22E-F7F9-4EB0-BFE2-62E19CA4D78A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nClam.Tests", "nClam.Tests\nClam.Tests.csproj", "{977109DD-3C54-495F-A6D3-B94BB667728D}"
 EndProject
@@ -23,10 +21,6 @@ Global
 		{4F90429F-3CB1-4972-AEC1-3A06FA8841D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F90429F-3CB1-4972-AEC1-3A06FA8841D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F90429F-3CB1-4972-AEC1-3A06FA8841D1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BF7B4064-77F0-4521-BB35-EA8A69C058D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BF7B4064-77F0-4521-BB35-EA8A69C058D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BF7B4064-77F0-4521-BB35-EA8A69C058D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BF7B4064-77F0-4521-BB35-EA8A69C058D1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{82DFC22E-F7F9-4EB0-BFE2-62E19CA4D78A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{82DFC22E-F7F9-4EB0-BFE2-62E19CA4D78A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82DFC22E-F7F9-4EB0-BFE2-62E19CA4D78A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -40,7 +34,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{BF7B4064-77F0-4521-BB35-EA8A69C058D1} = {600E1A67-6A2F-408B-B436-4AA8480A4EBA}
 		{82DFC22E-F7F9-4EB0-BFE2-62E19CA4D78A} = {600E1A67-6A2F-408B-B436-4AA8480A4EBA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

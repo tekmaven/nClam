@@ -2,6 +2,7 @@
 {
     using System;
     using System.IO;
+    using System.Net;
     using System.Net.Sockets;
     using System.Text;
     using System.Threading;
@@ -25,20 +26,40 @@
         public string Server { get; set; }
 
         /// <summary>
+        /// IP Address to the ClamAV server
+        /// </summary>
+        public IPAddress ServerIP { get; set; }
+
+        /// <summary>
         /// Port which the ClamAV server is listening on
         /// </summary>
         public int Port { get; set; }
+
+        private ClamClient()
+        {
+            MaxChunkSize = 131072; //128k
+            MaxStreamSize = 26214400; //25mb
+        }
 
         /// <summary>
         /// A class to connect to a ClamAV server and request virus scans
         /// </summary>
         /// <param name="server">Address to the ClamAV server</param>
         /// <param name="port">Port which the ClamAV server is listening on</param>
-        public ClamClient(string server, int port = 3310)
+        public ClamClient(string server, int port = 3310) : this()
         {
-            MaxChunkSize = 131072; //128k
-            MaxStreamSize = 26214400; //25mb
             Server = server;
+            Port = port;
+        }
+
+        /// <summary>
+        /// A class to connect to a ClamAV server via IP and request virus scans
+        /// </summary>
+        /// <param name="serverIP">IP Address to the ClamAV server</param>
+        /// <param name="port">Port which the ClamAV server is listening on</param>
+        public ClamClient(IPAddress serverIP, int port = 3310) : this()
+        {
+            ServerIP = serverIP;
             Port = port;
         }
 
@@ -110,7 +131,7 @@
 
             while ((size = await sourceStream.ReadAsync(bytes, 0, size, cancellationToken).ConfigureAwait(false)) > 0)
             {
-                if (sourceStream.Position > MaxStreamSize)
+                if (sourceStream.CanSeek && sourceStream.Position > MaxStreamSize)
                 {
                     throw new MaxStreamSizeExceededException(MaxStreamSize);
                 }
@@ -126,7 +147,7 @@
 
         protected async virtual Task<Stream> CreateConnection(TcpClient clam)
         {
-            await clam.ConnectAsync(Server, Port).ConfigureAwait(false);
+            await (ServerIP == null ? clam.ConnectAsync(Server, Port) : clam.ConnectAsync(ServerIP, Port)).ConfigureAwait(false);
 
             return clam.GetStream();
         }
@@ -300,5 +321,14 @@
                 return await SendAndScanFileAsync(stream, cancellationToken).ConfigureAwait(false);
             }
         }
-    }
+
+		/// <summary>
+		/// Shuts down the ClamAV server in an orderly fashion.
+		/// </summary>
+		public async Task Shutdown(CancellationToken cancellationToken)
+		{
+		    await ExecuteClamCommandAsync("SHUTDOWN", cancellationToken).ConfigureAwait(false);
+		}
+
+	}
 }
