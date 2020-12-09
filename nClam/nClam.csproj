@@ -1,32 +1,27 @@
-﻿<Project Sdk="Microsoft.NET.Sdk" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk"
+  xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
-    <Copyright>Copyright © nClam Team 2017</Copyright>
+    <TargetFrameworks>net5.0;netstandard2.0</TargetFrameworks>
+    <Copyright>Copyright © The Open Source Community &lt;3</Copyright>
     <Company>nClam Team</Company>
-    <Version>4.0.1</Version>
+    <Version>5.0.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
-    <PropertyGroup>
-        <PackageId>nClam</PackageId>
-        <PackageVersion>4.0.1</PackageVersion>
-        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-        <PackageProjectUrl>https://github.com/tekmaven/nClam</PackageProjectUrl>
-        <Description>A library to talk to a ClamAV server and perform virus scanning.</Description>
-        <PackageTags>clamav virus clam clamd nclam</PackageTags>
-        <Authors>rhoffman</Authors>
-    </PropertyGroup>
+  <PropertyGroup>
+    <PackageId>nClam</PackageId>
+    <PackageVersion>5.0.0</PackageVersion>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageProjectUrl>https://github.com/tekmaven/nClam</PackageProjectUrl>
+    <Description>A library to talk to a ClamAV server and perform virus scanning.</Description>
+    <PackageTags>clamav virus clam clamd nclam</PackageTags>
+    <Authors>rhoffman</Authors>
+  </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
-      <LangVersion>latest</LangVersion>
-    </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
-    <ItemGroup Condition="'$(TargetFramework)'=='net45'">
-        <Reference Include="System" />
-        <Reference Include="System.IO" />
-        <Reference Include="System.Threading" />
-        <Reference Include="System.Threading.Tasks" />
-    </ItemGroup>
 </Project>

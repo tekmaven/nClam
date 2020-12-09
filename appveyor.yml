@@ -1,9 +1,9 @@
-version: 4.0.{build}
-image: Visual Studio 2017
+version: 5.0.{build}
+image: Visual Studio 2019
 configuration: Release
 build_script:
-- ps: dotnet build -c Release
+  - ps: dotnet build -c Release
 test_script:
-- ps: pushd nClam.Tests; dotnet test; popd
+  - ps: pushd nClam.Tests; dotnet test; popd
 artifacts:
-- path: nClam\bin\Release\*.nupkg
+  - path: nClam\bin\Release\*.nupkg
