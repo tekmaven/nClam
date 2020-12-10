@@ -3,17 +3,17 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Copyright>Copyright © The Open Source Community &lt;3</Copyright>
     <Company>nClam Team</Company>
-    <Version>5.0.0</Version>
+    <Version>5.0.1</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <PropertyGroup>
     <PackageId>nClam</PackageId>
-    <PackageVersion>5.0.0</PackageVersion>
+    <PackageVersion>5.0.1</PackageVersion>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageProjectUrl>https://github.com/tekmaven/nClam</PackageProjectUrl>
     <Description>A library to talk to a ClamAV server and perform virus scanning.</Description>
-    <PackageTags>clamav virus clam clamd nclam</PackageTags>
+    <PackageTags>clamav virus clam clamd nclam scan</PackageTags>
     <Authors>rhoffman</Authors>
   </PropertyGroup>
 
