@@ -30,7 +30,7 @@ namespace nClam.Tests
 
             Assert.Equal(ClamScanResults.VirusDetected, result.Result);
 
-            Assert.Equal(1, result.InfectedFiles.Count);
+            Assert.Single(result.InfectedFiles);
 
             Assert.Equal(@"\\?\C:\test.txt", result.InfectedFiles[0].FileName);
             Assert.Equal(" Eicar-Test-Signature", result.InfectedFiles[0].VirusName);
@@ -45,7 +45,7 @@ namespace nClam.Tests
         }
 
         [Fact]
-        public void before_tests()
+        public void Before_Tests()
         {
             Assert.Equal(
                 "test:test1",
@@ -64,7 +64,7 @@ namespace nClam.Tests
         }
 
         [Fact]
-        public void after_tests()
+        public void After_Tests()
         {
             //current released behavior to have initial space
             //(probably a bug)
