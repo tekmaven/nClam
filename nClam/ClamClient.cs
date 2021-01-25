@@ -169,6 +169,24 @@
 
             return version;
         }
+        
+        /// <summary>
+        /// Gets the ClamAV server stats
+        /// </summary>
+        public Task<string> GetStatsAsync()
+        {
+            return GetStatsAsync(CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// Gets the ClamAV server stats
+        /// </summary>
+        public async Task<string> GetStatsAsync(CancellationToken cancellationToken)
+        {
+            var stats = await ExecuteClamCommandAsync("STATS", cancellationToken).ConfigureAwait(false);
+
+            return stats;
+        }
 
         /// <summary>
         /// Executes a PING command on the ClamAV server.
@@ -329,6 +347,5 @@
 		{
 		    await ExecuteClamCommandAsync("SHUTDOWN", cancellationToken).ConfigureAwait(false);
 		}
-
-	}
+    }
 }
