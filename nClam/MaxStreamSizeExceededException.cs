@@ -13,7 +13,7 @@
         /// </summary>
         /// <param name="maxStreamSize">Maximum size of the stream.</param>
         public MaxStreamSizeExceededException(long maxStreamSize)
-             : base(String.Format("The maximum stream size of {0} bytes has been exceeded.", maxStreamSize))
+             : base($"The maximum stream size of {maxStreamSize} bytes has been exceeded.")
         {
 
         }
