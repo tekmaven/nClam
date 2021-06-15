@@ -23,12 +23,12 @@
         /// <summary>
         /// Address to the ClamAV server
         /// </summary>
-        public string Server { get; set; }
+        public string? Server { get; set; }
 
         /// <summary>
         /// IP Address to the ClamAV server
         /// </summary>
-        public IPAddress ServerIP { get; set; }
+        public IPAddress? ServerIP { get; set; }
 
         /// <summary>
         /// Port which the ClamAV server is listening on
@@ -70,7 +70,7 @@
         /// <param name="cancellationToken">cancellation token used in requests</param>
         /// <param name="additionalCommand">Action to define additional server communications.  Executed after the command is sent and before the response is read.</param>
         /// <returns>The full response from the ClamAV server.</returns>
-        private async Task<string> ExecuteClamCommandAsync(string command, CancellationToken cancellationToken, Func<Stream, CancellationToken, Task> additionalCommand = null)
+        private async Task<string> ExecuteClamCommandAsync(string command, CancellationToken cancellationToken, Func<Stream, CancellationToken, Task>? additionalCommand = null)
         {
 #if DEBUG
             var stopWatch = System.Diagnostics.Stopwatch.StartNew();
@@ -81,27 +81,23 @@
 
             try
             {
-                using (var stream = await CreateConnection(clam))
+                using var stream = await CreateConnection(clam);
+                var commandText = $"z{command}\0";
+                var commandBytes = Encoding.UTF8.GetBytes(commandText);
+                await stream.WriteAsync(commandBytes, 0, commandBytes.Length, cancellationToken).ConfigureAwait(false);
+
+                if (additionalCommand != null)
                 {
-                    var commandText = String.Format("z{0}\0", command);
-                    var commandBytes = Encoding.UTF8.GetBytes(commandText);
-                    await stream.WriteAsync(commandBytes, 0, commandBytes.Length, cancellationToken).ConfigureAwait(false);
+                    await additionalCommand(stream, cancellationToken).ConfigureAwait(false);
+                }
 
-                    if (additionalCommand != null)
-                    {
-                        await additionalCommand(stream, cancellationToken).ConfigureAwait(false);
-                    }
+                using var reader = new StreamReader(stream);
+                result = await reader.ReadToEndAsync().ConfigureAwait(false);
 
-                    using (var reader = new StreamReader(stream))
-                    {
-                        result = await reader.ReadToEndAsync().ConfigureAwait(false);
-
-                        if (!String.IsNullOrEmpty(result))
-                        {
-                            //if we have a result, trim off the terminating null character
-                            result = result.TrimEnd('\0');
-                        }
-                    }
+                if (!String.IsNullOrEmpty(result))
+                {
+                    //if we have a result, trim off the terminating null character
+                    result = result.TrimEnd('\0');
                 }
             }
             finally
@@ -232,7 +228,7 @@
         /// <param name="cancellationToken">cancellation token used for request</param>
         public async Task<ClamScanResult> ScanFileOnServerAsync(string filePath, CancellationToken cancellationToken)
         {
-            return new ClamScanResult(await ExecuteClamCommandAsync(String.Format("SCAN {0}", filePath), cancellationToken).ConfigureAwait(false));
+            return new ClamScanResult(await ExecuteClamCommandAsync($"SCAN {filePath}", cancellationToken).ConfigureAwait(false));
         }
 
         /// <summary>
@@ -251,7 +247,7 @@
         /// <param name="cancellationToken">cancellation token used for request</param>
         public async Task<ClamScanResult> ScanFileOnServerMultithreadedAsync(string filePath, CancellationToken cancellationToken)
         {
-            return new ClamScanResult(await ExecuteClamCommandAsync(String.Format("MULTISCAN {0}", filePath), cancellationToken).ConfigureAwait(false));
+            return new ClamScanResult(await ExecuteClamCommandAsync($"MULTISCAN {filePath}", cancellationToken).ConfigureAwait(false));
         }
 
         /// <summary>
@@ -303,10 +299,8 @@
         /// <param name="filePath">Path to the file/directory.</param>
         public async Task<ClamScanResult> SendAndScanFileAsync(string filePath)
         {
-            using (var stream = File.OpenRead(filePath))
-            {
-                return await SendAndScanFileAsync(stream).ConfigureAwait(false);
-            }
+            using var stream = File.OpenRead(filePath);
+            return await SendAndScanFileAsync(stream).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -316,10 +310,8 @@
         /// <param name="cancellationToken">cancellation token used for request</param>
         public async Task<ClamScanResult> SendAndScanFileAsync(string filePath, CancellationToken cancellationToken)
         {
-            using (var stream = File.OpenRead(filePath))
-            {
-                return await SendAndScanFileAsync(stream, cancellationToken).ConfigureAwait(false);
-            }
+            using var stream = File.OpenRead(filePath);
+            return await SendAndScanFileAsync(stream, cancellationToken).ConfigureAwait(false);
         }
 
 		/// <summary>

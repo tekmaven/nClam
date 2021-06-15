@@ -19,7 +19,7 @@
         /// <summary>
         /// List of infected files with what viruses they are infected with. Null if the Result is not VirusDetected.
         /// </summary>
-        public ReadOnlyCollection<ClamScanInfectedFile> InfectedFiles { get; private set; }
+        public ReadOnlyCollection<ClamScanInfectedFile>? InfectedFiles { get; private set; }
 
         public ClamScanResult(string rawResult)
         {
@@ -46,7 +46,7 @@
                     var trimFile = file.Trim();
                     var splitFile = trimFile.Split();
                     
-                    infectedFiles.Add(new ClamScanInfectedFile() { FileName = before(trimFile), VirusName = after(trimFile) });
+                    infectedFiles.Add(new ClamScanInfectedFile(before(trimFile), after(trimFile)));
                 }
 
                 InfectedFiles = new ReadOnlyCollection<ClamScanInfectedFile>(infectedFiles);

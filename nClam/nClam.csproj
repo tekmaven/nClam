@@ -5,6 +5,7 @@
     <Company>nClam Team</Company>
     <Version>5.0.1</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <PropertyGroup>
