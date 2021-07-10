@@ -20,12 +20,12 @@ namespace nClam
     /// <summary>
     /// Address to the ClamAV server
     /// </summary>
-    string Server { get; set; }
+    string? Server { get; set; }
 
     /// <summary>
     /// IP Address to the ClamAV server
     /// </summary>
-    IPAddress ServerIP { get; set; }
+    IPAddress? ServerIP { get; set; }
 
     /// <summary>
     /// Port which the ClamAV server is listening on
