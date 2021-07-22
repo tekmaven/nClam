@@ -81,7 +81,7 @@
 
             try
             {
-                using var stream = await CreateConnection(clam);
+                using var stream = await CreateConnection(clam).ConfigureAwait(false);
                 var commandText = $"z{command}\0";
                 var commandBytes = Encoding.UTF8.GetBytes(commandText);
                 await stream.WriteAsync(commandBytes, 0, commandBytes.Length, cancellationToken).ConfigureAwait(false);
