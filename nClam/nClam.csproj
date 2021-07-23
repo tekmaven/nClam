@@ -4,14 +4,14 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Copyright>Apache License Version 2.0</Copyright>
     <Company>nClam Team</Company>
-    <Version>6.0.0</Version>
+    <Version>6.0.1</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <PropertyGroup>
     <PackageId>nClam</PackageId>
-    <PackageVersion>6.0.0</PackageVersion>
+    <PackageVersion>6.0.1</PackageVersion>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageProjectUrl>https://github.com/tekmaven/nClam</PackageProjectUrl>
     <Description>A library to talk to a ClamAV server and perform virus scanning.</Description>
