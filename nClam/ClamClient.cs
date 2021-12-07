@@ -122,12 +122,15 @@
         /// <param name="cancellationToken"></param>
         private async Task SendStreamFileChunksAsync(Stream sourceStream, Stream clamStream, CancellationToken cancellationToken)
         {
+            var streamSize = 0;
             int readByteCount;
             var bytes = new byte[MaxChunkSize];
 
             while ((readByteCount = await sourceStream.ReadAsync(bytes, 0, MaxChunkSize, cancellationToken).ConfigureAwait(false)) > 0)
             {
-                if (sourceStream.CanSeek && sourceStream.Position > MaxStreamSize)
+                streamSize += readByteCount;
+
+                if (streamSize > MaxStreamSize)
                 {
                     throw new MaxStreamSizeExceededException(MaxStreamSize);
                 }
