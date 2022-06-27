@@ -1,5 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk"
-  xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Copyright>Apache License Version 2.0</Copyright>
@@ -22,7 +21,10 @@
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
+
   <ItemGroup>
-    <Folder Include="Properties\" />
+    <Compile Remove="Properties\**" />
+    <EmbeddedResource Remove="Properties\**" />
+    <None Remove="Properties\**" />
   </ItemGroup>
 </Project>

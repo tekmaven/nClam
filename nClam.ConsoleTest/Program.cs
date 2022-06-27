@@ -42,7 +42,6 @@ namespace nClam.ConsoleTest
                     Console.WriteLine("Woah an error occured! Error: {0}", scanResult.RawResult);
                     break;
             }
-
         }
     }
 }
