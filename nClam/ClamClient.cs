@@ -1,6 +1,7 @@
 ﻿namespace nClam
 {
     using System;
+    using System.Buffers;
     using System.IO;
     using System.Net;
     using System.Net.Sockets;
@@ -117,16 +118,16 @@
         /// <summary>
         /// Helper method to send a byte array over the wire to the ClamAV server, split up in chunks.
         /// </summary>
-        /// <param name="sourceStream">The stream to send to the ClamAV server.</param>
+        /// <param name="sourceData">The stream to send to the ClamAV server.</param>
         /// <param name="clamStream">The communication channel to the ClamAV server.</param>
         /// <param name="cancellationToken"></param>
-        private async Task SendStreamFileChunksAsync(Stream sourceStream, Stream clamStream, CancellationToken cancellationToken)
+        private async Task SendStreamFileChunksAsync(Stream sourceData, Stream clamStream, CancellationToken cancellationToken)
         {
             var streamSize = 0;
             int readByteCount;
             var bytes = new byte[MaxChunkSize];
 
-            while ((readByteCount = await sourceStream.ReadAsync(bytes, 0, MaxChunkSize, cancellationToken).ConfigureAwait(false)) > 0)
+            while ((readByteCount = await sourceData.ReadAsync(bytes, 0, MaxChunkSize, cancellationToken).ConfigureAwait(false)) > 0)
             {
                 streamSize += readByteCount;
 
@@ -143,7 +144,36 @@
             var newMessage = BitConverter.GetBytes(0);
             await clamStream.WriteAsync(newMessage, 0, newMessage.Length, cancellationToken).ConfigureAwait(false);
         }
+#if NETSTANDARD2_1_OR_GREATER
+        /// <summary>
+        /// Helper method to send a memory region over the wire to the ClamAV server, split up in chunks.
+        /// </summary>
+        /// <param name="sourceData">The stream to send to the ClamAV server.</param>
+        /// <param name="clamStream">The communication channel to the ClamAV server.</param>
+        /// <param name="cancellationToken"></param>
+        private async Task SendStreamFileChunksAsync(ReadOnlyMemory<byte> sourceData, Stream clamStream, CancellationToken cancellationToken)
+        {
+            var readByteCount = 0;
 
+            if (sourceData.Length > MaxStreamSize)
+            {
+                throw new MaxStreamSizeExceededException(MaxStreamSize);
+            }
+
+            while (readByteCount < sourceData.Length)
+            {
+                var toRead = ((sourceData.Length - readByteCount) > MaxChunkSize ? MaxChunkSize : sourceData.Length - readByteCount);
+                var readBytes = BitConverter.GetBytes((uint) System.Net.IPAddress.HostToNetworkOrder(toRead));
+
+                await clamStream.WriteAsync(readBytes, 0, readBytes.Length, cancellationToken).ConfigureAwait(false);
+                await clamStream.WriteAsync(sourceData.Slice(readByteCount, toRead), cancellationToken).ConfigureAwait(false);
+
+                readByteCount += toRead;
+            }
+
+            await clamStream.WriteAsync(BitConverter.GetBytes(0));
+        }
+#endif
         protected async virtual Task<Stream> CreateConnection(TcpClient clam)
         {
             await (ServerIP == null ? clam.ConnectAsync(Server, Port) : clam.ConnectAsync(ServerIP, Port)).ConfigureAwait(false);
@@ -303,6 +333,29 @@
             return SendAndScanFileAsync(sourceStream, CancellationToken.None);
         }
 
+#if NETSTANDARD2_1_OR_GREATER
+        /// <summary>
+        /// Sends the data to the ClamAV server as a ReadOnlyMemory<byte> block, as returned by PipeReader.ReadAsync()
+        /// </summary>
+        /// <param name="fileData">Memory region that contains the data read from the file.</param>
+        /// <param name="cancellationToken">cancellation token used for request</param>
+        /// <returns></returns>
+        public async Task<ClamScanResult> SendAndScanFileAsync(ReadOnlyMemory<byte> fileData, CancellationToken cancellationToken)
+        {
+            return new ClamScanResult(await ExecuteClamCommandAsync("INSTREAM", cancellationToken, (stream, token) => SendStreamFileChunksAsync(fileData, stream, token)).ConfigureAwait(false));
+        }
+
+        /// <summary>
+        /// Sends the data to the ClamAV server as a chunk
+        /// </summary>
+        /// <param name="sourceData">Stream containing the data to scan.</param>
+        /// <returns></returns>
+        public Task<ClamScanResult> SendAndScanFileAsync(ReadOnlyMemory<byte> sourceData)
+        {
+            return SendAndScanFileAsync(sourceData, CancellationToken.None);
+        }
+#endif
+
         /// <summary>
         /// Sends the data to the ClamAV server as a stream.
         /// </summary>
@@ -335,12 +388,12 @@
             return await SendAndScanFileAsync(stream, cancellationToken).ConfigureAwait(false);
         }
 
-		/// <summary>
-		/// Shuts down the ClamAV server in an orderly fashion.
-		/// </summary>
-		public async Task Shutdown(CancellationToken cancellationToken)
-		{
-		    await ExecuteClamCommandAsync("SHUTDOWN", cancellationToken).ConfigureAwait(false);
-		}
+        /// <summary>
+        /// Shuts down the ClamAV server in an orderly fashion.
+        /// </summary>
+        public async Task Shutdown(CancellationToken cancellationToken)
+        {
+            await ExecuteClamCommandAsync("SHUTDOWN", cancellationToken).ConfigureAwait(false);
+        }
     }
 }
