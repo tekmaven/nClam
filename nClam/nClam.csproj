@@ -13,6 +13,7 @@
     <PackageId>nClam</PackageId>
     <PackageVersion>7.0.0</PackageVersion>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/tekmaven/nClam</PackageProjectUrl>
     <Description>A library to talk to a ClamAV server and perform virus scanning.</Description>
     <PackageTags>clamav virus clam clamd nclam scan</PackageTags>
