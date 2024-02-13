@@ -2,8 +2,8 @@ version: 8.0.{build}
 image: Visual Studio 2022
 configuration: Release
 build_script:
-  - ps: dotnet build -c Release
+  - ps: dotnet build -c Release -p:ContinuousIntegrationBuild=True
 test_script:
-  - ps: pushd nClam.Tests; dotnet test; popd
+  - ps: pushd nClam.Tests; dotnet test --no-build --no-restore; popd
 artifacts:
   - path: nClam\bin\Release\*.nupkg

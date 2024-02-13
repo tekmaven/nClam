@@ -32,3 +32,4 @@ Nuget Package/*
 packages/*
 /.vs/*
 .vscode
+.idea
