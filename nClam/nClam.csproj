@@ -1,4 +1,5 @@
-﻿<Project Sdk="Microsoft.NET.Sdk" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk"
+  xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
     <Copyright>Apache License Version 2.0</Copyright>
@@ -12,6 +13,7 @@
     <PackageId>nClam</PackageId>
     <PackageVersion>7.0.0</PackageVersion>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/tekmaven/nClam</PackageProjectUrl>
     <Description>A library to talk to a ClamAV server and perform virus scanning.</Description>
@@ -24,6 +26,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
+    <None Include="..\README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.Memory" Version="4.5.5" />
